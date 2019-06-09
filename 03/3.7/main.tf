@@ -1,5 +1,5 @@
 module "dev_server" {
-  source = "./http_server"
+  source        = "./http_server"
   instance_type = "t2.micro"
 }
 
