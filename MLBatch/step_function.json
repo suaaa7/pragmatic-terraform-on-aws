@@ -1,0 +1,16 @@
+{
+  "Comment": "Step Function",
+  "StartAt": "Get Data",
+  "States": {
+    "Get Data": {
+      "Type": "Task",
+      "Resource": "${lambda-arn}",
+      "Next": "Upload JSON to S3"
+    },
+    "Upload JSON to S3": {
+      "Type": "Task",
+      "Resource": "${lambda-arn2}",
+      "End": true
+    }
+  }
+}
