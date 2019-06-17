@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_event_rule" "sfn" {
   name = "every_minute"
-  schedule_expression = "cron(* * * * ? *)"
+  schedule_expression = "cron(*/3 * * * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "sfn" {
