@@ -14,7 +14,7 @@ def lambda_handler(event, context):
         "accracy": 0.90
     }
 
-    json_str = json.dump(pred_result)
+    json_str = json.dumps(pred_result)
 
     ret = bucket.put_object(
         ACL="private",
