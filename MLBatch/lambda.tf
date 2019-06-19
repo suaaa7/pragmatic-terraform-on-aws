@@ -1,7 +1,7 @@
 data "archive_file" "lambda" {
   type = "zip"
   source_dir = "src"
-  output_path = "src/upload/test.zip"
+  output_path = "src/upload/lambda_function.zip"
 }
 
 resource "aws_lambda_function" "lambda" {

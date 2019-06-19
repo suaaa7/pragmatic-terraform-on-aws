@@ -1,7 +1,7 @@
 import boto3
 import json
 
-BUCKET_NAME = "ss-json-data"
+BUCKET_NAME = "suaaa7-json-data"
 FILE_NAME = "test.json"
 
 def lambda_handler(event, context):

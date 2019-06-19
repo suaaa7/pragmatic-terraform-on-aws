@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "bucket" {
-  bucket = "ss-json-data"
+  bucket = "suaaa7-json-data"
   acl = "private"
   force_destroy = true
 }
@@ -11,8 +11,14 @@ resource "aws_s3_bucket_policy" "bucket" {
 
 data "aws_iam_policy_document" "bucket_policy_doc" {
   statement {
+    sid = "bucket_policy"
     effect = "Allow"
-    actions = ["s3:GetObject", "s3.PutObject"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.bucket.arn}/*"]
+    actions = ["s3:PutObject", "s3:GetObject"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.bucket.id}/*"]
+
+    principals {
+      type = "AWS"
+      identifiers = ["${aws_iam_role.lambda.arn}"]
+    }
   }
 }
