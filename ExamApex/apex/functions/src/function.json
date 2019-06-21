@@ -1,0 +1,4 @@
+{
+  "nameTemplate": "{{.Function.Name}}",
+  "handler": "lambda_function.lambda_handler"
+}
