@@ -11,4 +11,3 @@ resource "aws_ecr_lifecycle_policy" "ecr" {
 data "template_file" "ecr" {
   template = file("json/ecr_lifecycle_policy.json")
 }
-
