@@ -1,4 +1,7 @@
-FROM python:3.6
+FROM python:3.6-slim
+
+ARG WEBHOOK_URL="URL"
+ENV WEBHOOK_URL $WEBHOOK_URL
 
 ADD script .
 RUN pip install -r requirements.txt
