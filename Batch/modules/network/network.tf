@@ -86,6 +86,10 @@ resource "aws_route_table_association" "private_subnet_route_association" {
   route_table_id = element(aws_route_table.private_route_table.*.id, count.index)
 }
 
+output "vpc" {
+  value = aws_vpc.vpc.id  
+}
+
 output "private_subnets" {
   value = [aws_subnet.private.*.id]
 }
