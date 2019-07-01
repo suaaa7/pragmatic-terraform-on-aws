@@ -1,7 +1,7 @@
 [
   {
     "name": "fargate",
-    "image": "${account_id}.dkr.ecr.${aws_region}.amazonaws.com/${repository}:${tag}",
+    "image": "${repository_url}:${tag}",
     "cpu": ${cpu},
     "memory": ${memory},
     "networkMode": "awsvpc",

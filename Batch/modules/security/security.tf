@@ -1,3 +1,5 @@
+variable "vpc" {}
+
 variable "project" {
   default = "batch"
 }
@@ -17,7 +19,7 @@ resource "aws_security_group_rule" "fargate_out" {
   to_port           = 0
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = "${aws_security_group.fargate.id}"
+  security_group_id = aws_security_group.fargate.id
 }
 
 output "fargate_security_group" {

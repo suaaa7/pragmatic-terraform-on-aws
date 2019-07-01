@@ -14,6 +14,8 @@ module "security" {
 
 module "ecr" {
   source = "./modules/ecr"
+
+  ecr_repository = "batch-repository"
 }
 
 module "fargate" {
@@ -23,4 +25,6 @@ module "fargate" {
   iam_role_arn = module.iam.iam_role_arn
   private_subnets = module.network.private_subnets
   fargate_security_group = module.security.fargate_security_group
+  repository_url = module.ecr.repository_url
+  tag = "latest"
 }

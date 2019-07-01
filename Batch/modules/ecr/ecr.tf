@@ -1,5 +1,7 @@
+variable "ecr_repository" {}
+
 resource "aws_ecr_repository" "ecr" {
-  name = "batch-repository"
+  name = var.ecr_repository
 }
 
 resource "aws_ecr_lifecycle_policy" "ecr" {
@@ -10,4 +12,8 @@ resource "aws_ecr_lifecycle_policy" "ecr" {
 
 data "template_file" "ecr" {
   template = file("json/ecr_lifecycle_policy.json")
+}
+
+output "repository_url" {
+  value = aws_ecr_repository.ecr.repository_url
 }
