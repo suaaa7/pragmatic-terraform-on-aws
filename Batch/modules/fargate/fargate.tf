@@ -12,8 +12,15 @@ resource "aws_ecs_cluster" "cluster" {
 resource "aws_ecs_service" "service" {
   name = "fargate-service"
   cluster = aws_ecs_cluster.cluster.id
-  desired_count = 5
+  desired_count = 2
   task_definition = aws_ecs_task_definition.task_def.arn
+  launch_type = "FARGATE"
+
+  network_configuration {
+    subnets = flatten([var.private_subnets])
+    security_groups = [var.fargate_security_group]
+    assign_public_ip = "false"
+  }
 }
 
 # Task Definition
