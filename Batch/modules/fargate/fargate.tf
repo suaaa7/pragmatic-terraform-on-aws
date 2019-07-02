@@ -1,6 +1,10 @@
 variable "aws_region" {}
 
-variable "iam_role_arn" {}
+variable "project" {}
+
+variable "ecs_tasks_role_arn" {}
+
+variable "ecs_events_role_arn" {}
 
 variable "private_subnets" {}
 
@@ -15,6 +19,38 @@ locals {
   memory = 512
 }
 
+# CloudWatch Log
+resource "aws_cloudwatch_log_group" "for_ecs_scheduled_tasks" {
+  name = "/ecs-scheduled_tasks/${var.project}"
+  retention_in_days = 30
+}
+
+# CloudWatch Event
+resource "aws_cloudwatch_event_rule" "fargate_batch" {
+  name = var.project
+  description = "fargate"
+  schedule_expression = "cron(*/3 * * * ? *)"
+}
+
+resource "aws_cloudwatch_event_target" "fargate_batch" {
+  target_id = var.project
+  rule = aws_cloudwatch_event_rule.fargate_batch.name
+  role_arn = var.ecs_events_role_arn
+  arn = aws_ecs_cluster.cluster.arn
+
+  ecs_target {
+    launch_type = "FARGATE"
+    task_count = 1
+    platform_version = "1.3.0"
+    task_definition_arn = aws_ecs_task_definition.task_def.arn
+
+    network_configuration {
+      subnets = flatten([var.private_subnets])
+      assign_public_ip = "false"
+    }
+  }
+}
+
 # Cluster
 resource "aws_ecs_cluster" "cluster" {
   name = "fargate-cluster"
@@ -24,10 +60,11 @@ resource "aws_ecs_cluster" "cluster" {
 resource "aws_ecs_service" "service" {
   name = "fargate-service"
   cluster = aws_ecs_cluster.cluster.id
+  task_definition = aws_ecs_task_definition.task_def.arn
   # desired_count >= 2
   desired_count = 2
-  task_definition = aws_ecs_task_definition.task_def.arn
   launch_type = "FARGATE"
+  platform_version = "1.3.0"
 
   network_configuration {
     subnets = flatten([var.private_subnets])
@@ -43,7 +80,7 @@ resource "aws_ecs_task_definition" "task_def" {
   network_mode = "awsvpc"
   cpu = local.cpu
   memory = local.memory
-  execution_role_arn = var.iam_role_arn
+  execution_role_arn = var.ecs_tasks_role_arn
   container_definitions = data.template_file.task_def.rendered
 }
 
