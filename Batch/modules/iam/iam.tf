@@ -1,32 +1,37 @@
-resource "aws_iam_role" "ecs_task_execution" {
-  name = "ecs-task-execution"
-  assume_role_policy = data.aws_iam_policy_document.ecs_tasks_role.json
+variable "name" {}
+variable "policy" {}
+variable "identifier" {}
+
+resource "aws_iam_role" "default" {
+  name               = var.name
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
-data "aws_iam_policy_document" "ecs_tasks_role" {
+data "aws_iam_policy_document" "assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
+
     principals {
-      type = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
+      type        = "Service"
+      identifiers = [var.identifier]
     }
-    effect = "Allow"
   }
 }
 
-/*
-resource "aws_iam_policy" "ecs_task_execution" {
-  name = "ecs-task-execution"
-  policy = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+resource "aws_iam_policy" "default" {
+  name   = var.name
+  policy = var.policy
 }
-*/
 
-resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
-  role = aws_iam_role.ecs_task_execution.name
-  #policy_arn = aws_iam_policy.ecs_task_execution.arn
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+resource "aws_iam_role_policy_attachment" "default" {
+  role       = aws_iam_role.default.name
+  policy_arn = aws_iam_policy.default.arn
 }
 
 output "iam_role_arn" {
-  value = aws_iam_role.ecs_task_execution.arn
+  value = aws_iam_role.default.arn
+}
+
+output "iam_role_name" {
+  value = aws_iam_role.default.name
 }

@@ -1,5 +1,13 @@
-module "iam" {
+module "ecs_tasks_role" {
   source = "./modules/iam"
+
+  name = "ecs-task-execution"
+  identifier = "ecs-tasks.amazonaws.com"
+  policy = data.aws_iam_policy.ecs_tasks_role_policy.policy
+}
+
+data "aws_iam_policy" "ecs_tasks_role_policy" {
+  arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 module "network" {
