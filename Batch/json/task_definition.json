@@ -10,6 +10,7 @@
         "awslogs-stream-prefix": "batch",
         "awslogs-group": "${cloudwatch_log_group}"
       }
-    }
+    },
+    "command": ["./entrypoint.sh"]
   }
 ]
