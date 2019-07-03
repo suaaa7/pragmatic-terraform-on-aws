@@ -41,6 +41,7 @@ resource "aws_cloudwatch_event_target" "fargate_batch" {
 
     network_configuration {
       subnets = flatten([var.private_subnets])
+      security_groups = [var.fargate_security_group]
       assign_public_ip = "false"
     }
   }

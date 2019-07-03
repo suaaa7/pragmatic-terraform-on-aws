@@ -6,6 +6,10 @@ variable "project" {
   default = "batch"
 }
 
+variable "tag" {
+  default = "latest"
+}
+
 module "ecs_tasks_role" {
   source = "./modules/iam"
 
@@ -46,7 +50,7 @@ module "security" {
 module "ecr" {
   source = "./modules/ecr"
 
-  ecr_repository = "batch-repo"
+  ecr_repository = var.project
 }
 
 module "fargate" {
@@ -59,5 +63,5 @@ module "fargate" {
   private_subnets = module.network.private_subnets
   fargate_security_group = module.security.fargate_security_group
   repository_url = module.ecr.repository_url
-  tag = "latest"
+  tag = var.tag
 }
