@@ -14,14 +14,9 @@ variable "repository_url" {}
 
 variable "tag" {}
 
-locals {
-  cpu = 256
-  memory = 512
-}
-
 # CloudWatch Log
 resource "aws_cloudwatch_log_group" "for_ecs_scheduled_tasks" {
-  name = "/ecs-scheduled_tasks/${var.project}"
+  name = "/ecs-scheduled-tasks/${var.project}"
   retention_in_days = 30
 }
 
@@ -56,6 +51,7 @@ resource "aws_ecs_cluster" "cluster" {
   name = "fargate-cluster"
 }
 
+/*
 # Service
 resource "aws_ecs_service" "service" {
   name = "fargate-service"
@@ -72,14 +68,15 @@ resource "aws_ecs_service" "service" {
     assign_public_ip = "false"
   }
 }
+*/
 
 # Task Definition
 resource "aws_ecs_task_definition" "task_def" {
   family = "fargate"
   requires_compatibilities = ["FARGATE"]
   network_mode = "awsvpc"
-  cpu = local.cpu
-  memory = local.memory
+  cpu = 256
+  memory = 512
   execution_role_arn = var.ecs_tasks_role_arn
   container_definitions = data.template_file.task_def.rendered
 }
@@ -88,9 +85,9 @@ data "template_file" "task_def" {
   template = file("json/task_definition.json")
 
   vars = {
-    cpu = local.cpu
-    memory = local.memory
     repository_url = var.repository_url
     tag = var.tag
+    aws_region = var.aws_region
+    cloudwatch_log_group = aws_cloudwatch_log_group.for_ecs_scheduled_tasks.name
   }
 }

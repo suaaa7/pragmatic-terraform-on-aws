@@ -27,7 +27,7 @@ module "ecs_events_role" {
 }
 
 data "aws_iam_policy" "ecs_events_role_policy" {
-  arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ConrainerServiceEventsRole"
+  arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
 }
 
 module "network" {
@@ -46,7 +46,7 @@ module "security" {
 module "ecr" {
   source = "./modules/ecr"
 
-  ecr_repository = "batch-repository"
+  ecr_repository = "batch-repo"
 }
 
 module "fargate" {
