@@ -24,7 +24,7 @@ resource "aws_cloudwatch_log_group" "for_ecs_scheduled_tasks" {
 resource "aws_cloudwatch_event_rule" "fargate_batch" {
   name = var.project
   description = "fargate"
-  schedule_expression = "cron(*/3 * * * ? *)"
+  schedule_expression = "cron(*/5 * * * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "fargate_batch" {

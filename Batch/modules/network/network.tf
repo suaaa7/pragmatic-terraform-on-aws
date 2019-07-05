@@ -17,15 +17,29 @@ resource "aws_vpc" "vpc" {
   }
 }
 
-# private subnet for each AZ
+# Private subnet for each AZ
 resource "aws_subnet" "private" {
   count = var.azcount
   vpc_id = aws_vpc.vpc.id
   cidr_block = cidrsubnet(aws_vpc.vpc.cidr_block, 8, count.index)
   availability_zone = data.aws_availability_zones.current.names[count.index]
+  map_public_ip_on_launch = false
 
   tags = {
     Name = "${var.project}-private-subnet-${data.aws_availability_zones.current.names[count.index]}"
+  }
+}
+
+# Public subnet for routing to the internet
+resource "aws_subnet" "public" {
+  count = var.azcount
+  vpc_id = aws_vpc.vpc.id
+  cidr_block = cidrsubnet(aws_vpc.vpc.cidr_block, 8, var.azcount + count.index)
+  availability_zone = data.aws_availability_zones.current.names[count.index]
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "${var.project}-public-subnet-${data.aws_availability_zones.current.names[count.index]}"
   }
 }
 
@@ -36,6 +50,13 @@ resource "aws_internet_gateway" "gateway" {
   tags = {
     Name = "${var.project}-internet-gateway"
   }
+}
+
+# Route to the internet
+resource "aws_route" "internet_route" {
+  route_table_id = aws_vpc.vpc.main_route_table_id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.gateway.id
 }
 
 # Elastic IP for each AZ
@@ -53,7 +74,7 @@ resource "aws_eip" "eip" {
 resource "aws_nat_gateway" "nat" {
   count = var.azcount
   allocation_id = element(aws_eip.eip.*.id, count.index)
-  subnet_id = element(aws_subnet.private.*.id, count.index)
+  subnet_id = element(aws_subnet.public.*.id, count.index)
   depends_on = [aws_internet_gateway.gateway]
 
   tags = {
