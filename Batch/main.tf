@@ -6,8 +6,16 @@ variable "project" {
   default = "batch"
 }
 
+variable "ecr_repository" {
+  default = "batch-repo"
+}
+
 variable "tag" {
   default = "latest"
+}
+
+variable "bucket_name" {
+  default = "my-mlbatch-bucket"
 }
 
 module "ecs_tasks_role" {
@@ -47,10 +55,17 @@ module "security" {
   vpc = module.network.vpc
 }
 
+module "s3" {
+  source = "./modules/s3"
+
+  bucket_name = var.bucket_name
+  ecs_tasks_role_arn = module.ecs_tasks_role.iam_role_arn
+}
+
 module "ecr" {
   source = "./modules/ecr"
 
-  ecr_repository = var.project
+  ecr_repository = var.ecr_repository
 }
 
 module "fargate" {

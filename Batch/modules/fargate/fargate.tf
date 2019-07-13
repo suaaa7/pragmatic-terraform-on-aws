@@ -78,6 +78,7 @@ resource "aws_ecs_task_definition" "task_def" {
   network_mode = "awsvpc"
   cpu = "256"
   memory = "512"
+  task_role_arn = var.ecs_tasks_role_arn
   execution_role_arn = var.ecs_tasks_role_arn
   container_definitions = data.template_file.task_def.rendered
 }
