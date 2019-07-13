@@ -1,4 +1,4 @@
 #!/bin/sh
 
 docker push \
-    ${AWS_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$1:$2
+    ${AWS_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${TAG}
