@@ -1,7 +1,7 @@
 [
   {
     "name": "fargate",
-    "image": "${repository_url}:${tag}",
+    "image": "${repository_url}:${image_tag}",
     "essential": true,
     "logConfiguration": {
       "logDriver": "awslogs",

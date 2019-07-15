@@ -12,7 +12,7 @@ variable "fargate_security_group" {}
 
 variable "repository_url" {}
 
-variable "tag" {}
+variable "image_tag" {}
 
 # CloudWatch Log
 resource "aws_cloudwatch_log_group" "for_ecs_scheduled_tasks" {
@@ -88,7 +88,7 @@ data "template_file" "task_def" {
 
   vars = {
     repository_url = var.repository_url
-    tag = var.tag
+    image_tag = var.image_tag
     aws_region = var.aws_region
     cloudwatch_log_group = aws_cloudwatch_log_group.for_ecs_scheduled_tasks.name
   }

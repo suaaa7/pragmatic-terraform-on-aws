@@ -1,21 +1,13 @@
-variable "aws_region" {
-  default = "ap-northeast-1"
-}
+variable "aws_region" {}
+
+variable "ecr_repository" {}
+
+variable "image_tag" {}
+
+variable "bucket_name" {}
 
 variable "project" {
   default = "batch"
-}
-
-variable "ecr_repository" {
-  default = "batch-repo"
-}
-
-variable "tag" {
-  default = "latest"
-}
-
-variable "bucket_name" {
-  default = "my-mlbatch-bucket"
 }
 
 module "ecs_tasks_role" {
@@ -78,5 +70,5 @@ module "fargate" {
   private_subnets = module.network.private_subnets
   fargate_security_group = module.security.fargate_security_group
   repository_url = module.ecr.repository_url
-  tag = var.tag
+  image_tag = var.image_tag
 }
