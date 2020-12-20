@@ -6,10 +6,10 @@ jobs:
   test:
     runs-on: ubuntu-18.04
     env:
-      a: a
+      tf_actions_working_dir: code
     defaults:
       run:
-        working-directory: code
+        working-directory: ${{ env.tf_actions_working_dir }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
