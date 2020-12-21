@@ -9,9 +9,7 @@ resource "aws_iam_role" "default" {
 
 data "aws_iam_policy_document" "assume_role" {
   statement {
-    # ロールの引き受け
-    # ロールに設定された権限を持った一時キーを入手すること
-    actions = ["sts.AssumeRole"]
+    actions = ["sts:AssumeRole"]
 
     principals {
       type        = "Service"
