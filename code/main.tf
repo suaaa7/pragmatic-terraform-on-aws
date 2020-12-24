@@ -1,9 +1,10 @@
 terraform {
-  required_version = "~> 0.12.29"
+  required_version = "0.12.29"
 }
 
 provider "aws" {
   region = var.region
+  version = "3.21.0"
 }
 
 data "aws_iam_policy" "ecs_task_execution_role_policy" {
