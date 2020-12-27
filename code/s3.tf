@@ -56,3 +56,16 @@ resource "aws_s3_bucket" "operation" {
     }
   }
 }
+
+resource "aws_s3_bucket" "cloudwatch_logs" {
+  bucket        = "cloudwatch-logs-pragmatic-terraform-1621"
+  force_destroy = true
+
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = "30"
+    }
+  }
+}

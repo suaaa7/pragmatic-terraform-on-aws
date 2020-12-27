@@ -10,10 +10,6 @@ resource "aws_ssm_parameter" "db_password" {
   value       = "uninitialized"
   type        = "SecureString"
   description = "DB Password"
-
-  lifecycle {
-    ignore_changes = [value]
-  }
 }
 
 resource "aws_ssm_parameter" "github_personal_access_token" {
