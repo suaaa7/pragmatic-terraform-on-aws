@@ -43,3 +43,16 @@ resource "aws_s3_bucket" "artifact" {
     }
   }
 }
+
+resource "aws_s3_bucket" "operation" {
+  bucket        = "operation-pragmatic-terraform-1621"
+  force_destroy = true
+
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = "30"
+    }
+  }
+}
