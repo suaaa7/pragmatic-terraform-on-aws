@@ -18,7 +18,7 @@ resource "aws_ssm_parameter" "db_password" {
 
 resource "aws_ssm_parameter" "github_personal_access_token" {
   name        = "github-personal-access-token"
-  value       = "hoge"
+  value       = var.github_token
   type        = "String"
   description = "GitHub Personal Access Token"
 }
