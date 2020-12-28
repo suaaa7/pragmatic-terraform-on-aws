@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "ecs_task_execution" {
 }
 
 module "ecs_task_execution_role" {
-  source     = "./iam_role"
+  source     = "./modules/iam_role"
   name       = "esc-task-execution"
   identifier = "ecs-tasks.amazonaws.com"
   policy     = data.aws_iam_policy_document.ecs_task_execution.json
@@ -25,7 +25,7 @@ data "aws_iam_policy" "ecs_events_role_policy" {
 }
 
 module "ecs_events_role" {
-  source     = "./iam_role"
+  source     = "./modules/iam_role"
   name       = "ecs-events"
   identifier = "events.amazonaws.com"
   policy     = data.aws_iam_policy.ecs_events_role_policy.policy
@@ -60,7 +60,7 @@ data "aws_iam_policy_document" "codebuild" {
 }
 
 module "codebuild_role" {
-  source     = "./iam_role"
+  source     = "./modules/iam_role"
   name       = "codebuild"
   identifier = "codebuild.amazonaws.com"
   policy     = data.aws_iam_policy_document.codebuild.json
@@ -90,7 +90,7 @@ data "aws_iam_policy_document" "codepipeline" {
 }
 
 module "codepipeline_role" {
-  source     = "./iam_role"
+  source     = "./modules/iam_role"
   name       = "codepipeline"
   identifier = "codepipeline.amazonaws.com"
   policy     = data.aws_iam_policy_document.codepipeline.json
@@ -124,7 +124,7 @@ data "aws_iam_policy" "ec2_for_ssm" {
 }
 
 module "ec2_for_ssm_role" {
-  source     = "./iam_role"
+  source     = "./modules/iam_role"
   name       = "ec2-for-ssm"
   identifier = "ec2.amazonaws.com"
   policy     = data.aws_iam_policy_document.ec2_for_ssm.json
@@ -151,7 +151,7 @@ data "aws_iam_policy_document" "kinesis_data_firehose" {
 }
 
 module "kinesis_data_firehose_role" {
-  source     = "./iam_role"
+  source     = "./modules/iam_role"
   name       = "kinesis-data-firehose"
   identifier = "firehose.amazonaws.com"
   policy     = data.aws_iam_policy_document.kinesis_data_firehose.json
@@ -172,14 +172,14 @@ data "aws_iam_policy_document" "cloudwatch_logs" {
 }
 
 module "cloudwatch_logs_role" {
-  source     = "./iam_role"
+  source     = "./modules/iam_role"
   name       = "cloudwatch-logs"
   identifier = "logs.ap-northeast-1.amazonaws.com"
   policy     = data.aws_iam_policy_document.cloudwatch_logs.json
 }
 
 module "http_sg" {
-  source      = "./security_group"
+  source      = "./modules/security_group"
   name        = "http-sg"
   vpc_id      = aws_vpc.example.id
   port        = 80
@@ -187,7 +187,7 @@ module "http_sg" {
 }
 
 module "nginx_sg" {
-  source      = "./security_group"
+  source      = "./modules/security_group"
   name        = "nginx-sg"
   vpc_id      = aws_vpc.example.id
   port        = 80
@@ -195,7 +195,7 @@ module "nginx_sg" {
 }
 
 module "mysql_sg" {
-  source      = "./security_group"
+  source      = "./modules/security_group"
   name        = "mysql-sg"
   vpc_id      = aws_vpc.example.id
   port        = 3306
@@ -203,7 +203,7 @@ module "mysql_sg" {
 }
 
 module "redis_sg" {
-  source      = "./security_group"
+  source      = "./modules/security_group"
   name        = "redis-sg"
   vpc_id      = aws_vpc.example.id
   port        = 6379
