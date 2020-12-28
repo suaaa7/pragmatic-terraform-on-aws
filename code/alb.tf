@@ -68,7 +68,3 @@ resource "aws_lb_listener_rule" "example" {
     }
   }
 }
-
-output "alb_dns_name" {
-  value = aws_lb.example.dns_name
-}

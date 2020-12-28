@@ -10,7 +10,3 @@ resource "aws_instance" "example_for_operation" {
   subnet_id            = aws_subnet.private_0.id
   user_data            = file("./shell/user_data.sh")
 }
-
-output "operation_instance_id" {
-  value = aws_instance.example_for_operation.id
-}
