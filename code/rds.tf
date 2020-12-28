@@ -39,7 +39,7 @@ resource "aws_db_instance" "example" {
   storage_encrypted          = true
   kms_key_id                 = aws_kms_key.example.arn
   username                   = "admin"
-  password                   = "VeryStrongPassword!"
+  password                   = random_string.rds_password.result
   multi_az                   = true
   publicly_accessible        = false
   backup_window              = "09:10-09:40"
