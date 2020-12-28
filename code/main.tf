@@ -12,6 +12,10 @@ provider "github" {
   version = "4.1.0"
 }
 
+provider "random" {
+  version = "3.0.0"
+}
+
 data "aws_iam_policy" "ecs_task_execution_role_policy" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }

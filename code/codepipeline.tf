@@ -73,7 +73,7 @@ resource "aws_codepipeline_webhook" "example" {
   authentication  = "GITHUB_HMAC"
 
   authentication_configuration {
-    secret_token = var.github_hmac_secret_token
+    secret_token = random_string.github_hmac_secret_token.result
   }
 
   filter {
@@ -87,7 +87,7 @@ resource "github_repository_webhook" "example" {
 
   configuration {
     url          = aws_codepipeline_webhook.example.url
-    secret       = var.github_hmac_secret_token
+    secret       = random_string.github_hmac_secret_token.result
     content_type = "json"
     insecure_ssl = false
   }

@@ -13,11 +13,6 @@ variable "github_repository" {
   default = "your-repository"
 }
 
-variable "github_hmac_secret_token" {
-  type    = string
-  default = "RequiredVeryRandomStringMoreThan20Byte"
-}
-
 variable "github_token" {
   type    = string
   default = "hoge"
