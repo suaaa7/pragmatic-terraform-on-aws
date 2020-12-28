@@ -1,21 +1,3 @@
-terraform {
-  required_version = "0.12.29"
-}
-
-provider "aws" {
-  region  = var.region
-  version = "3.21.0"
-}
-
-provider "github" {
-  owner   = var.github_owner
-  version = "4.1.0"
-}
-
-provider "random" {
-  version = "3.0.0"
-}
-
 data "aws_iam_policy" "ecs_task_execution_role_policy" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
